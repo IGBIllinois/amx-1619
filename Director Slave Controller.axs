@@ -85,7 +85,7 @@ DATA_EVENT[dvRGBRtr]
 DATA_EVENT[dvproj]
 {
     Online:
-	SEND_COMMAND data.device,"'SET BAUD 19200,8,N,1'" //Baud Rate of the Proj
+	SEND_COMMAND data.device,"'SET BAUD 9600,8,N,1'" //Baud Rate of the Proj
 }
 
 
