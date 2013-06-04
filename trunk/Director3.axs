@@ -314,13 +314,13 @@ sProjCmd[10],nProjDelay
 	   // on[dvRackPower,1]
 	   // on[dvRackPower,2]
 	    //send_string dvProj,"'(PWR1)'"
-	    sProjCmd = '(PWR1)'
+	    sProjCmd = 'PWR ON'
 	    nProjDelay = 500
 	}
 	if(Proj_Control = 'POF')//Turn Proj OFF
 	{
-	    send_string dvProj,"'(PWR0)'"
-	    sProjCmd = 'PWR0'
+	    send_string dvProj,"'PWR OFF'"
+	    sProjCmd = 'PWR OFF'
 	    nProjDelay = 50
 	}
 	if(Proj_Control = 'VID1') //Select Vid input. 
