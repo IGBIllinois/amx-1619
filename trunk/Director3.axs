@@ -65,7 +65,7 @@ integer nOff = 0
 integer nLeft = 2	//Used for selecting Left Flat Panel
 integer nRight = 1	//Used for selecting Right Flat Panel
 integer TL1 = 1
-integer TL2 = 2
+//integer TL2 = 2
 integer OffTime = 60	//Used to count down the time to turn the system off.
 devchan dvch_Quad_Misc[] = 
 {
@@ -314,14 +314,15 @@ sProjCmd[10],nProjDelay
 	   // on[dvRackPower,1]
 	   // on[dvRackPower,2]
 	    //send_string dvProj,"'(PWR1)'"
-	    sProjCmd = 'PWR ON'
-	    nProjDelay = 500
+	    //send_string dvProj,"'PWR ON',$0D"
+	    sProjCmd = "'PWR ON',$0D"
+	    nProjDelay = 1
 	}
 	if(Proj_Control = 'POF')//Turn Proj OFF
 	{
-	    send_string dvProj,"'PWR OFF'"
-	    sProjCmd = 'PWR OFF'
-	    nProjDelay = 50
+	    //send_string dvProj,"'PWR OFF',$0D"
+	    sProjCmd = "'PWR OFF',$0D"
+	    nProjDelay = 1
 	}
 	if(Proj_Control = 'VID1') //Select Vid input. 
 	{
@@ -515,7 +516,7 @@ FOR (COUNT=0 ; COUNT<70 ; COUNT++)
 {
     TimeArray[Count] = 1000
 }
-TIMELINE_CREATE(TL2, TimeArray, 10, TIMELINE_RELATIVE, TIMELINE_REPEAT) 
+//TIMELINE_CREATE(TL2, TimeArray, 10, TIMELINE_RELATIVE, TIMELINE_REPEAT) 
 //SYSTEM_CALL [1] 'SONCA000' (1)
 (***********************************************************)
 (*                THE EVENTS GO BELOW                      *)
@@ -1278,14 +1279,14 @@ BUTTON_EVENT[dvTp,nCodecBtns]
 
 
 
-TIMELINE_EVENT[TL2] // capture all events for Timeline 2
+/*TIMELINE_EVENT[TL2] // capture all events for Timeline 2
 { 
     switch(Timeline.Sequence) // which time was it? 
     { 
 	case 1: 
 	    {
 		nCheckPwr[1] = 1
-		SEND_STRING dvProj,"'(PWR?)'"
+		SEND_STRING dvProj,"'PWR?',$0D"
 	    } 
 	case 2: { } 
 	case 3:
@@ -1296,7 +1297,7 @@ TIMELINE_EVENT[TL2] // capture all events for Timeline 2
 		
 	    } 
     }
-}
+}*/
 
 DEFINE_PROGRAM
 (**************************)
