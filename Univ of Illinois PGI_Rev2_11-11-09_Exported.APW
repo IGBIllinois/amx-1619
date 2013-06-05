@@ -104,13 +104,13 @@
        <!ELEMENT Notes (#PCDATA)>
 ]>
 
-<Workspace CurrentVersion="3.3"><Identifier>Room 1619</Identifier>
+<Workspace CurrentVersion="3.3"><Identifier>Univ of Illinois PGI_Rev2_MRC</Identifier>
 <CreateVersion>3.1</CreateVersion>
 <PJS_File></PJS_File>
 <PJS_ConvertDate></PJS_ConvertDate>
 <PJS_CreateDate></PJS_CreateDate>
 <Comments></Comments>
-<Project><Identifier>PGI</Identifier>
+<Project><Identifier>IGB</Identifier>
 <Designer></Designer>
 <DealerID></DealerID>
 <SalesOrder></SalesOrder>
@@ -118,9 +118,9 @@
 <Comments></Comments>
 <System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>Room 1619</Identifier>
 <SysID>0</SysID>
-<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransSerial>COM1,115200,8,None,1,None</TransSerial>
 <TransModem>COM1,38400,8,None,1,None</TransModem>
-<TransTCPIP>192.168.1.101:1319:1:1619AV::</TransTCPIP>
+<TransTCPIP>192.168.1.101:1319:1: ::</TransTCPIP>
 <VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
 <VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
 <VNMSystemID>1</VNMSystemID>
@@ -133,38 +133,54 @@
 <File CompileType="Netlinx" Type="Source"><Identifier>Director Slave Controller</Identifier>
 <FilePathName>Director Slave Controller.axs</FilePathName>
 <Comments></Comments>
+<DeviceMap DevAddr="Custom [0:1:0]"><DevName>Custom [0:1:0]</DevName>
+</DeviceMap>
 </File>
-<File CompileType="Netlinx" Type="Source"><Identifier>Director3</Identifier>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>Director3</Identifier>
 <FilePathName>Director3.axs</FilePathName>
 <Comments></Comments>
 </File>
+<File CompileType="None" Type="TKN"><Identifier>Director3</Identifier>
+<FilePathName>Director3.TKN</FilePathName>
+<Comments>Compiled File</Comments>
+</File>
 <File CompileType="None" Type="Include"><Identifier>AMX_ArrayLib</Identifier>
-<FilePathName>Include\AMX_ArrayLib.axi</FilePathName>
+<FilePathName>Includes\AMX_ArrayLib.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="None" Type="Include"><Identifier>Biamp_Audia</Identifier>
-<FilePathName>Include\Biamp_Audia.axi</FilePathName>
+<FilePathName>Includes\Biamp_Audia.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="None" Type="Include"><Identifier>nAMX_QUEUE</Identifier>
-<FilePathName>Include\nAMX_QUEUE.axi</FilePathName>
+<FilePathName>Includes\nAMX_QUEUE.axi</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="None" Type="Include"><Identifier>Polycom VS4000</Identifier>
-<FilePathName>Include\Polycom VS4000.axi</FilePathName>
+<FilePathName>Includes\Polycom VS4000.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>VS4000 Module</Identifier>
+<FilePathName>Includes\VS4000 Module.axs</FilePathName>
 <Comments></Comments>
 </File>
 <File CompileType="None" Type="IR"><Identifier>Denon,DVM1815,RC946,Digital Video Disc,</Identifier>
 <FilePathName>IR\Denon,DVM1815,RC946,Digital Video Disc,.irl</FilePathName>
 <Comments></Comments>
+<DeviceMap DevAddr="dvDVD"><DevName>dvDVD</DevName>
+</DeviceMap>
 </File>
 <File CompileType="None" Type="IR"><Identifier>Sony,SLV900,RMTV129,VCR, VHS,1</Identifier>
 <FilePathName>IR\Sony,SLV900,RMTV129,VCR, VHS,1.irl</FilePathName>
 <Comments></Comments>
+<DeviceMap DevAddr="dvVCR"><DevName>dvVCR</DevName>
+</DeviceMap>
 </File>
-<File CompileType="None" Type="TP4"><Identifier>Room 1619</Identifier>
-<FilePathName>Room 1619.TP4</FilePathName>
+<File CompileType="None" Type="TP4"><Identifier>Univ of Illinois Directors Office Rev 2</Identifier>
+<FilePathName>Univ of Illinois Directors Office Rev 2.TP4</FilePathName>
 <Comments></Comments>
+<DeviceMap DevAddr="dvTp"><DevName>dvTp</DevName>
+</DeviceMap>
 </File>
 </System>
 </Project>
