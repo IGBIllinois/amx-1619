@@ -814,7 +814,7 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 		
 		If(nSourceDevice = VTCSrc)
 		{
-		    SEND_COMMAND dvTp,"'PPON-VTC route issue'"
+		    //SEND_COMMAND dvTp,"'PPON-VTC route issue'"
 		}
 		Else
 		{
@@ -829,7 +829,7 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 		If(nSourceDevice = VTCSrc)
 		{
 		 
-		    SEND_COMMAND dvTp,"'PPON-VTC route issue'"
+		    //SEND_COMMAND dvTp,"'PPON-VTC route issue'"
 		   //Call 'Plasma Control'(SVID,nLeft)
 		}
 		ELSE
@@ -857,7 +857,7 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 	    {
 		If(nSourceDevice = VTCSrc)
 		{
-		    SEND_COMMAND dvTp,"'PPON-VTC route issue'"
+		    //SEND_COMMAND dvTp,"'PPON-VTC route issue'"
 		}
 		Else
 		{
