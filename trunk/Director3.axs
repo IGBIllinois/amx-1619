@@ -9,25 +9,25 @@ PROGRAM_NAME='Director'
 (*          DEVICE NUMBER DEFINITIONS GO BELOW             *)
 (***********************************************************)
 DEFINE_DEVICE
-dvCodec1 = 5001:1:0	//Polycom VSX7000e		
-dvAudia1 = 5001:2:0	//Biamp Nexia CS		
-dvCam	 = 5001:3:0	//Sony BCR300			(A)<--dwg reference
-dvQuad	 = 5001:4:0	//RGB Quadview			(B)
-//dvVCR	 = 5001:3:0	//VCR This VCR has no 232	(C)
-dvVideoRtr = 5001:6:0	//Extron MAV 84 Video Switcher	(D)
-dvLights = 5001:7:0	//Might be a Lutron GraphicEye
-dvRackPower = 5001:8:0	//Relay 1 is for the Seq Power Strip
-dvDVD      = 5001:9:0	//Denon DVD1920
-dvVCR	   = 5001:10:0	//Sony SLV-N900 This should be S-Control
-dvScaler   = 5001:1:2	//Extron DVS304 Video Scaler	(E)
-dvRGBRtr   = 5001:2:2	//Extron 450 RGB Switcher	(F)
-dvProj     = 5001:3:2	//Proxima Projector C450	(G)
-dvLcdRight = 5001:4:2	//Samsung LCD Right side of Room(I)
-dvLcdLeft  = 5001:5:2	//Samsung LCD Left side of Room	(H)
-dvTp       = 10001:1:0	//MVP8400 Touchpanel
-dvTpVcr_Dvd = 10001:2:0	//Port 2 for VCR and DVD control
-dvTpCodec  = 10001:4:0	//Port 4 is for the Polycom codec
-dvTP_qv	   = 10001:3:0	//Quad Buttons
+dvCodec1 = 5001:1:0     //Polycom VSX7000e              
+dvAudia1 = 5001:2:0     //Biamp Nexia CS 
+dvLcdRight = 5001:3:0   //Samsung LCD Right side of Room(I)
+dvProj     = 5001:5:0   //Proxima Projector C450        (G)
+dvLcdLeft  = 5001:6:0   //Samsung LCD Left side of Room (H)
+dvRGBRtr   = 5001:7:0   //Extron 450 RGB Switcher       (F)
+
+dvCam    = 5001:3:2     //Sony BCR300                   (A)<--dwg reference
+dvQuad   = 5001:4:2     //RGB Quadview                  (B)
+dvVideoRtr = 5001:5:2   //Extron MAV 84 Video Switcher  (D)
+//dvLights = 5001:3:2     //Might be a Lutron GraphicEye
+dvRackPower = 5001:8:0  //Relay 1 is for the Seq Power Strip
+
+dvScaler   = 5001:1:2   //Extron DVS304 Video Scaler    (E)
+
+dvTp       = 10001:1:0  //MVP8400 Touchpanel
+
+dvTpCodec  = 10001:4:0  //Port 4 is for the Polycom codec
+dvTP_qv    = 10001:3:0  //Quad Buttons
 (***********************************************************)
 (*               CONSTANT DEFINITIONS GO BELOW             *)
 (***********************************************************)
@@ -162,19 +162,7 @@ INTEGER nCamSelect[] =
     107,	//Left Cam
     108		//Right Cam
 }
-INTEGER nBtnDVDMisc[] = 
-{
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-    27,
-    28,
-    29
-}
+
 integer nBtnDisplayAdv[] = 
 {
     120,
@@ -295,11 +283,7 @@ DEFINE_CALL 'Rack Power'(integer nStat)
 	    
 	    On[dvRackPower,1]
 	    On[dvRackPower,2]
-	    Wait 30
-	    {
-		Pulse[dvDVD,27]
-		PULSE[dvVCR,9]
-	    }
+	    
 	}
     }
 }
@@ -476,11 +460,7 @@ Examples: :A21 select scene 2 on Control Unit A1
 :AG78 select scene 16 on Control Units A7 & A8
 *)
 
-DEFINE_CALL 'Lights'(integer nScene)
-{	
-    send_string dvLights,"':A',itoa(nScene),'1',$0D"	//Send the same command to all 3 units address per Lutron.
-    send_string 0:1:0,"'Scene ',itoa(nScene),' was recalled',13,0"
-}
+
 DEFINE_CALL 'System Off'
 {
     Call 'Proj Control'(1,'POF')
@@ -579,13 +559,7 @@ DATA_EVENT[dvVideoRtr]
 	send_command dvVideoRtr,"'SET BAUD 9600,8,N,1'"
     }
 }
-DATA_EVENT[dvLights]
-{
-    ONLINE:
-    {
-	SEND_COMMAND data.device,"'SET BAUD 9600,8,N,1'"
-    }
-}
+
 DATA_EVENT[dvScaler]
 {
     Online:
@@ -642,7 +616,7 @@ TIMELINE_EVENT[TL1] // capture all events for Timeline 1
 		{
 		    timeline_kill(tl1)
 		    Call 'System Off'
-		    Call 'Lights'(5)	//5 is the ALL Lights Off Preset.
+		    
 		    SEND_COMMAND dvTp,"'PPOF-Shutdown Warning'"
 		    SEND_COMMAND dvtp,"'Page-Splash'"
 		    SEND_COMMAND dvTp,"'Sleep'"
@@ -702,11 +676,7 @@ button_event[dvch_QuadView_Ouputs] // Quadview output window select and route
 		nQUAD_DEST = get_last(dvch_QuadView_Ouputs)
 	}
 }
-BUTTON_EVENT[dvch_LightingPresets]
-{
-    Push:
-    Call 'Lights'(get_last(dvch_LightingPresets))
-}
+
 BUTTON_EVENT[dvTp,nRgbPortBtn]	//Select the Input on the RGB Router
 {
     Push:
@@ -733,22 +703,7 @@ BUTTON_EVENT[dvTp,nSrcSelects]
 	nSourceDevice = (get_last(nSrcSelects))
 	SWITCH (nSourceDevice)
 	{
-	    Case 1:	//DVD
-	    {
-		nScalerIn = 2
-		nRgbRouterIn = 8
-		send_string 0:1:0,"'SRC = DVD',13,10"
-		SEND_COMMAND dvTp,"'PPON-Destinations'"
-	    }
-	    Case 2:	//VCR
-	    {
-		nScalerIn = 1
-		nRgbRouterIn = 8
-		nVideoRouterIn = 8
-		nVideoRouterOut = 1
-		send_string 0:1:0,"'SRC = VCR',13,10"
-		SEND_COMMAND dvTp,"'PPON-Destinations'"
-	    }
+	    
 	    Case 3:	//VTC
 	    {
 		send_string dvCodec1,"'screen wake',10"
@@ -885,32 +840,7 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 	nVideoRouterIn = 0
 	nRgbRouterIn = 0
 	nScalerIn = 0
-	If(nSourceDevice = 1)	//DVD
-	{
-	    nVolChn = 2
-	    nMuteChan = 2
-	    CurrentBg = 2
-	    AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE)	//Program Audio (Non Surround
-	    AUDIA_SetVolumeFn (4, AUDIA_VOL_MUTE)	//Mute Codec
-	    Call 'Switch Video'(7,1,'A')
-	    SEND_COMMAND dvTp,"'Page-DVD'"
-	    SEND_COMMAND dvTp,"'PPON-Top Bar'"
-	    SEND_COMMAND dvTp,"'PPON-DVD Title'"
-	    //SEND_COMMAND dvTp,"'PPON-Destinations'"
-	}
-	If(nSourceDevice = 2)	//VCR
-	{
-	    nVolChn = 3
-	    nMuteChan = 0
-	    CurrentBg = 3
-	    AUDIA_SetVolumeFn (2, AUDIA_VOL_MUTE)	//Mute the DVD Player Surround Sound
-	    AUDIA_SetVolumeFn (4, AUDIA_VOL_MUTE)	//Mute Codec.
-	    Pulse[dvDVD,2]	//Stop the DVD because of audio issues.
-	    Call 'Switch Video'(8,1,'B')
-	    SEND_COMMAND dvTp,"'Page-VCR'"
-	    SEND_COMMAND dvTp,"'PPON-Top Bar'"
-	    SEND_COMMAND dvTp,"'PPON-VCR Title'"
-	}
+
 	If(nSourceDevice = 3)	//VTC
 	{
 	    nVolChn = 4
@@ -938,51 +868,6 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
     }
 }
 
-button_event[dvTpVcr_Dvd,nBtnDVDMisc]	
-{				
-    push:
-    {
-       switch(get_last(nBtnDVDMisc))
-	{
-	    case 1: 
-	    {	 
-		Pulse[dvDVD,45] //up
-	    }
-	    case 2: 
-	    {	 
-		Pulse[dvDVD,46] //dn
-	    }
-	    case 3: 
-	    {	 
-		Pulse[dvDVD,47] //lf
-	    }
-	    case 4: 
-	    {	 
-		Pulse[dvDVD,48] //rt
-	    }
-	    case 5: 
-	    {	 
-		Pulse[dvDVD,66] //Nav Sel ENTER
-	    }
-	    case 6: 
-	    {	 
-		Pulse[dvDVD,44] //Menu
-	    }
-	    case 7: 
-	    {	 
-		Pulse[dvDVD,51] //Main
-	    }
-	    case 8:  //Display
-	    {	 
-		Pulse[dvDVD,58]
-	    } 
-	    case 9:  //Return (28)
-	    {	 
-		Pulse[dvDVD,54]
-	    } 
-	}
-    }
-}
 
 
 
@@ -1321,8 +1206,7 @@ SEND_LEVEL dvTp,1,AUDIA_GetBgLvl(CurrentBG)
  DEFINE_PROGRAM
 
 SYSTEM_CALL [1] 'SONCA001' (dvCam,dvTp,PLR,PRB,TUB,TDB,ZTB,ZWB,FNB,FFB,AFB,MFB)
-SYSTEM_CALL 'VCR1'(dvVCR,dvTpVcr_Dvd,1,2,3,4,5,6,7,0,0)
-SYSTEM_CALL 'DVD1'(dvDVD,dvTpVcr_Dvd,11,12,13,14,15,16,17,0)
+
 [dvProj,124] = nCheckPwr[1]
 [dvProj,125] = !nCheckPwr[1]
  
