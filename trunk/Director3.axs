@@ -802,6 +802,8 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 		    Call 'Plasma Control'(RGB3,nRight)
 		    CALL 'Plasma Control'(PwrOn,nLeft)	//For Self view.
 		    Call 'Plasma Control'(RGB3,nLeft)	//For Self view.
+		    
+		    
 		}
 		ELSE
 		{
@@ -850,6 +852,8 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 	    SEND_COMMAND dvTp,"'Page-VTC Page'"
 	    SEND_COMMAND dvTp,"'PPON-Top Bar'"
 	    SEND_COMMAND dvTp,"'PPON-VTC Title'"
+	    Call 'Switch RGB'(5,2, 'V')
+	    Call 'Switch RGB'(6,3, 'V')
 	}
 	If(nSourceDevice = 4)	//Camera
 	{
