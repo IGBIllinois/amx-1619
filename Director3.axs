@@ -225,9 +225,9 @@ volatile integer nQUAD_PRESET
 volatile integer nQUAD_WIN[4]
 integer nTimeBlock
 LONG TimeArray[100] 
-integer nVolChn
+integer nVolChn = 3
 integer nMuteChan	//This is the Nexia channel that need to be muted. Either VCR or DVD.
-integer CurrentBg
+integer CurrentBg = 3
 integer nCheckPwr[3]
 char CodecCommand[20]
 integer nPipLocation
@@ -517,9 +517,9 @@ DATA_EVENT[dvAudia1]
 	    (*-- Biamp Parms (Lvl,Dev,VolCmd,MuteCmd,Min,Max) ---------*)
 	    //AUDIA_AssignVolumeParms (1, dvAUDIA1, 'SET 1 INPLVL 81 2 ', 'SET 1 INPMUTE 81 2 ', 0, 1120)
 	    //AUDIA_AssignVolumeParms (2, dvAUDIA1, 'SETL 1 OUTLVL 1 1 ', '', 0, 1120)
-	    AUDIA_AssignVolumeParms (2, dvAUDIA1, 'SET 2 FDRLVL 3 1 ', 'SET 2 FDRMUTE 3 1 ', 0, 1120)
-	    AUDIA_AssignVolumeParms (3, dvAUDIA1, 'SET 2 FDRLVL 8 1 ', 'SET 2 FDRMUTE 8 1 ', 0, 1120)
-	    AUDIA_AssignVolumeParms (4, dvAUDIA1, 'SET 2 FDRLVL 7 1 ', 'SET 2 FDRMUTE 7 1 ', 0, 1120)
+	    //AUDIA_AssignVolumeParms (2, dvAUDIA1, 'SET 2 FDRLVL 3 1 ', 'SET 2 FDRMUTE 3 1 ', 0, 1120)
+	    AUDIA_AssignVolumeParms (3, dvAUDIA1, 'SET 2 FDRLVL 8 1 ', 'SET 2 FDRMUTE 8 1 ', -500, 1200)
+	    AUDIA_AssignVolumeParms (4, dvAUDIA1, 'SET 2 FDRLVL 7 1 ', 'SET 2 FDRMUTE 7 1 ', -500, 1200)
 	    //AUDIA_AssignVolumeParms (1, dvAUDIA1, 'SETL 1 OUTLVL 1 1 ', '', 0, 1120)
 	}
     }
@@ -530,7 +530,7 @@ DATA_EVENT[dvAudia1]
 	    Wait 20
 	    {
 		SEND_STRING 0:1:0,"'Sent MUTE to Nexia',13"
-		AUDIA_SetVolumeFn (2, AUDIA_VOL_MUTE)
+		//AUDIA_SetVolumeFn (2, AUDIA_VOL_MUTE)
 	    }
 	}
     }
@@ -847,8 +847,8 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 	{
 	    nVolChn = 4
 	    CurrentBg = 4
-	    AUDIA_SetVolumeFn (2, AUDIA_VOL_MUTE)	//Program Audio (Non Surround
-	    AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE)	//Mute Codec
+	    //AUDIA_SetVolumeFn (2, AUDIA_VOL_MUTE)	//Program Audio (Non Surround
+	    //AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE)	//Mute Codec
 	    SEND_COMMAND dvTp,"'Page-VTC Page'"
 	    SEND_COMMAND dvTp,"'PPON-Top Bar'"
 	    SEND_COMMAND dvTp,"'PPON-VTC Title'"
@@ -865,7 +865,8 @@ BUTTON_EVENT[dvTp,nDestinationBtns]
 	}
 	If(nSourceDevice = 6)	//Video Ports
 	{
-	
+	    nVolChn = 3
+	    CurrentBg = 3
 	}
 	
 	
@@ -911,23 +912,23 @@ BUTTON_EVENT[dvTp,35]        // Vol Mute
         IF(uAudiaVol[nVolChn].nMute)
 	{
           AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_MUTE_OFF)
-	  //AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE_OFF)
+	  AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE_OFF)
 	}
         ELSE
           AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_UP)
-	 // AUDIA_SetVolumeFn (3, AUDIA_VOL_UP)
+	  AUDIA_SetVolumeFn (3, AUDIA_VOL_UP)
       }
       CASE 34 :    // Vol Down
       {
         IF(uAudiaVol[nVolChn].nMute)
 	{
           AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_MUTE_OFF)
-	  //AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE_OFF)
+	  AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE_OFF)
 	}
         ELSE
 	{
          AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_DOWN)
-	 //AUDIA_SetVolumeFn (3, AUDIA_VOL_DOWN)
+	 AUDIA_SetVolumeFn (3, AUDIA_VOL_DOWN)
 	}
       }
       CASE 35 :    // Vol Mute
@@ -935,12 +936,12 @@ BUTTON_EVENT[dvTp,35]        // Vol Mute
         IF(uAudiaVol[nVolChn].nMute)
 	{
           AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_MUTE_OFF)
-	  //AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE_OFF)
+	  AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE_OFF)
 	}
         ELSE
 	{
           AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_MUTE)
-	  //AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE)
+	  AUDIA_SetVolumeFn (3, AUDIA_VOL_MUTE)
 	}
       }
     }(*
@@ -990,8 +991,8 @@ BUTTON_EVENT[dvTp,35]        // Vol Mute
   }
   RELEASE :
   {
-    If(CurrentBg = 2)
-	AUDIA_SetVolumeFn (2, AUDIA_VOL_STOP)
+    //If(CurrentBg = 2)
+	//AUDIA_SetVolumeFn (2, AUDIA_VOL_STOP)
     If(CurrentBg = 3)
 	AUDIA_SetVolumeFn (3, AUDIA_VOL_STOP)
     If(CurrentBg = 4)
@@ -1005,12 +1006,12 @@ BUTTON_EVENT[dvTp,35]        // Vol Mute
       CASE 33 :    // Vol Up
       {
         AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_UP)
-	//AUDIA_SetVolumeFn (3, AUDIA_VOL_UP)
+	AUDIA_SetVolumeFn (3, AUDIA_VOL_UP)
       }
       CASE 34 :    // Vol Down
       {
         AUDIA_SetVolumeFn (CurrentBg, AUDIA_VOL_DOWN)
-	//AUDIA_SetVolumeFn (3, AUDIA_VOL_DOWN)
+	AUDIA_SetVolumeFn (3, AUDIA_VOL_DOWN)
       }
     }
    
