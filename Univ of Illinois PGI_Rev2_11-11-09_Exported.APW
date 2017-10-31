@@ -4,6 +4,7 @@
 <!-- Common Elements -->
 <!ELEMENT Identifier (#PCDATA)>
 <!ELEMENT Comments (#PCDATA)>
+<!ELEMENT MasterDirectory (#PCDATA)>
 <!ELEMENT CreationDate (#PCDATA)>
 
 <!-- Workspace Elements-->
@@ -42,15 +43,16 @@
 
 <!ELEMENT System  (  Identifier,
                  SysID,
-                 TransSerial?,
-                 TransModem?,
                  TransTCPIP?,
+                 TransSerial?,
+                 TransTCPIPEx?,
+                 TransSerialEx?,
+                 TransUSBEx?,
+                 TransVNMEx?,
                  VirtualNetLinxMasterFlag?,
-                 VNMRestoreIPSettings?,
                  VNMSystemID?,
                  VNMIPAddress?,
                  VNMMaskAddress?,
-                 IsAuthenticationEnabled?,
                  UserName?,
                  Password?,
                  Comments?,
@@ -59,18 +61,20 @@
 <!ATTLIST System
       IsActive   (true | false)   "false"
       Platform   (Axcess | Netlinx)   "Axcess"
-      Transport   (Serial | Modem | TCPIP) "Serial">
+      Transport   (Serial | Modem | TCPIP) "Serial"
+      TransportEx   (Serial | USB | TCPIP | VNM) "Serial">
 
 <!ELEMENT SysID (#PCDATA)>
 <!ELEMENT TransSerial (#PCDATA)>
-<!ELEMENT TransModem (#PCDATA)>
 <!ELEMENT TransTCPIP (#PCDATA)>
-<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
-<!ELEMENT VNMRestoreIPSettings (#PCDATA)>
+<!ELEMENT TransTCPIPEx (#PCDATA)>
+<!ELEMENT TransSerialEx (#PCDATA)>
+<!ELEMENT TransUSBEx (#PCDATA)>
+<!ELEMENT TransVNMEx (#PCDATA)>
 <!ELEMENT VNMSystemID (#PCDATA)>
 <!ELEMENT VNMIPAddress (#PCDATA)>
 <!ELEMENT VNMMaskAddress (#PCDATA)>
-<!ELEMENT IsAuthenticationEnabled (#PCDATA)>
+<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
 <!ELEMENT UserName (#PCDATA)>
 <!ELEMENT Password (#PCDATA)>
 
@@ -78,11 +82,12 @@
 <!ELEMENT File ( Identifier,
                FilePathName,
                Comments?,
+               MasterDirectory?,
                DeviceMap*,
                IRDB*)>
 
 <!ATTLIST File 
-       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB ) "Other"
+       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | TP5 | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB | XDD ) "Other"
        CompileType (Axcess | Netlinx | None) "None"> 
 
 <!ELEMENT FilePathName	(#PCDATA)>
@@ -104,7 +109,7 @@
        <!ELEMENT Notes (#PCDATA)>
 ]>
 
-<Workspace CurrentVersion="3.3"><Identifier>IGB Room 1619</Identifier>
+<Workspace CurrentVersion="4.0"><Identifier>IGB Room 1619</Identifier>
 <CreateVersion>3.1</CreateVersion>
 <PJS_File></PJS_File>
 <PJS_ConvertDate></PJS_ConvertDate>
@@ -116,17 +121,18 @@
 <SalesOrder></SalesOrder>
 <PurchaseOrder></PurchaseOrder>
 <Comments></Comments>
-<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>Room 1619</Identifier>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP" TransportEx="TCPIP"><Identifier>Room 1619</Identifier>
 <SysID>1</SysID>
-<TransSerial>COM1,115200,8,None,1,None</TransSerial>
-<TransModem>COM1,38400,8,None,1,None</TransModem>
 <TransTCPIP>192.168.1.103:1319:1: ::</TransTCPIP>
-<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
-<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<TransSerial>COM1,115200,8,None,1,None</TransSerial>
+<TransTCPIPEx>192.168.1.103|1319|1|1619 Master||</TransTCPIPEx>
+<TransSerialEx>COM1|115200|8|None|1|None||</TransSerialEx>
+<TransUSBEx>|||||</TransUSBEx>
+<TransVNMEx>10.0.0.1|1|&lt;Default&gt;</TransVNMEx>
+<VirtualNetLinxMasterFlag>false</VirtualNetLinxMasterFlag>
 <VNMSystemID>1</VNMSystemID>
 <VNMIPAddress>10.0.0.1</VNMIPAddress>
 <VNMMaskAddress>255.255.255.0</VNMMaskAddress>
-<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
 <UserName></UserName>
 <Password></Password>
 <Comments></Comments>
